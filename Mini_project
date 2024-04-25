@@ -1,0 +1,123 @@
+#include <stdio.h>
+#include <string.h>
+
+struct Student {
+    char name[50];
+    int id;
+    float marks;
+};
+
+struct Student students[100];
+int count = 0;
+
+void addStudent() {
+    printf("Enter student name: ");
+    scanf("%s", students[count].name);
+    printf("Enter student ID: ");
+    scanf("%d", &students[count].id);
+    printf("Enter student marks: ");
+    scanf("%f", &students[count].marks);
+    count++;
+}
+
+void displayAllStudents() {
+    printf("\nAll Students:\n");
+    for (int i = 0; i < count; i++) {
+        printf("Name: %s, ID: %d, Marks: %.2f\n", students[i].name, students[i].id, students[i].marks);
+    }
+}
+
+void searchStudent() {
+    int searchID;
+    printf("Enter student ID to search: ");
+    scanf("%d", &searchID);
+
+    for (int i = 0; i < count; i++) {
+        if (students[i].id == searchID) {
+            printf("Student found - Name: %s, ID: %d, Marks: %.2f\n", students[i].name, students[i].id, students[i].marks);
+            return;
+        }
+    }
+
+    printf("Student not found.\n");
+}
+
+void updateStudent() {
+    int updateID;
+    printf("Enter student ID to update: ");
+    scanf("%d", &updateID);
+
+    for (int i = 0; i < count; i++) {
+        if (students[i].id == updateID) {
+            printf("Enter updated marks for %s: ", students[i].name);
+            scanf("%f", &students[i].marks);
+            printf("Student information updated.\n");
+            return;
+        }
+    }
+
+    printf("Student not found.\n");
+}
+
+void deleteStudent() {
+    int deleteID;
+    printf("Enter student ID to delete: ");
+    scanf("%d", &deleteID);
+
+    for (int i = 0; i < count; i++) {
+        if (students[i].id == deleteID) {
+            for (int j = i; j < count - 1; j++) {
+                strcpy(students[j].name, students[j + 1].name);
+                students[j].id = students[j + 1].id;
+                students[j].marks = students[j + 1].marks;
+            }
+            count--;
+            printf("Student deleted.\n");
+            return;
+        }
+    }
+
+    printf("Student not found.\n");
+}
+
+int main() {
+    int choice;
+
+    do {
+        printf("\nStudent Management System\n");
+        printf("1. Add Student\n");
+        printf("2. Display All Students\n");
+        printf("3. Search Student\n");
+        printf("4. Update Student\n");
+        printf("5. Delete Student\n");
+        printf("0. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                addStudent();
+                break;
+            case 2:
+                displayAllStudents();
+                break;
+            case 3:
+                searchStudent();
+                break;
+            case 4:
+                updateStudent();
+                break;
+            case 5:
+                deleteStudent();
+                break;
+            case 0:
+                printf("Exiting program.\n");
+                break;
+            default:
+                printf("Invalid choice. Please enter a valid option.\n");
+        }
+
+    } while (choice != 0);
+
+    return 0;
+}
